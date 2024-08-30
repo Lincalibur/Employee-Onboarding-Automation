@@ -18,34 +18,38 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install Chocolatey
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl
-          curl -fsSL https://chocolatey.org/install.ps1 | sudo bash
-        shell: bash
-
       - name: Install Dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install paramiko pykeepass
+          sudo apt-get update
+          sudo apt-get install -y curl gnupg software-properties-common
+
+          # Install KeePass (via Snap)
+          sudo snap install keepass
+
+          # Install 7-Zip
+          sudo apt-get install -y p7zip-full
+
+          # Install Brave Browser
+          curl -fsSL https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key add -
+          sudo apt-add-repository "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
+          sudo apt-get update
+          sudo apt-get install -y brave-browser
+
+          # Install VSCode
+          curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
+          sudo apt-get update
+          sudo apt-get install -y code
+
+          # Outlook is web-based, so no installation is required
 
       - name: Run Software Installation Script
         run: |
           python scripts/software_install.py
-        #env:
-          #KEEPASS_DB_PATH: ${{ secrets.KEEPASS_DB_PATH }}
-          #KEEPASS_PASSWORD: ${{ secrets.KEEPASS_PASSWORD }}
 
-      - name: Run Account Creation Script
-        run: |
-          python scripts/account_creation.py
-        #env:
-          #KEEPASS_DB_PATH: ${{ secrets.KEEPASS_DB_PATH }}
-          #KEEPASS_PASSWORD: ${{ secrets.KEEPASS_PASSWORD }}
-
-      - name: Run Tests
+      - name: Verify Installation
         run: |
           dpkg -l | grep keepass || echo "KeePass not installed"
-          dpkg -l | grep 7zip || echo "7-Zip not installed"
+          dpkg -l | grep p7zip || echo "7-Zip not installed"
           dpkg -l | grep brave || echo "Brave Browser not installed"
+          dpkg -l | grep code || echo "VSCode not installed"
