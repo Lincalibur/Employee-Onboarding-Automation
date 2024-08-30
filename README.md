@@ -44,7 +44,7 @@ The Employee Onboarding Automation project aims to streamline and automate the o
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/Employee-Onboarding-Automation.git
+   git clone https://github.com/lincalibur/Employee-Onboarding-Automation.git
    ```
 
 2. **Checkout the Demo Branch**
