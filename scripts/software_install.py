@@ -11,7 +11,7 @@ def install_package(package_name, install_command):
 def install_applications():
     # List of applications and their installation commands
     apps = {
-        "KeePass": "sudo snap install keepass",
+        "KeePassXC": "sudo snap install keepassxc",
         "7-Zip": "sudo apt-get install -y p7zip-full",
         "Brave Browser": (
             "curl -fsSL https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key add - && "
