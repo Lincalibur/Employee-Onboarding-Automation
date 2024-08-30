@@ -2,7 +2,8 @@ import subprocess
 
 def check_package_installed(package_name, check_command):
     try:
-        result = subprocess.run(check_command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        # Run the command and capture the output
+        result = subprocess.run(check_command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, text=True)
         if result.returncode == 0:
             print(f"{package_name} is installed.")
         else:
