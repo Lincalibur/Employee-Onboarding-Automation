@@ -3,7 +3,7 @@ name: Run Tests on Demo Branch
 on:
   push:
     branches:
-      - demo
+      - Demo
 
 jobs:
   test:
