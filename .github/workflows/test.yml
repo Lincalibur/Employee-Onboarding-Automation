@@ -28,6 +28,9 @@ jobs:
       run: |
         python3 scripts/software_install.py
 
+    - name: List files
+      run: ls -R
+      
     - name: Run tests
       run: |
-        python3 scripts/test_software_install.py
+        python3 tests/test_software_install.py
